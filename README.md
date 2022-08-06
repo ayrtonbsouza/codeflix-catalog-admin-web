@@ -1,46 +1,86 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+# [Codeflix] Front-end: Video Catalog Administration
+React application developed to support the administration of video catalog of the hypotetical project called Codeflix.
+## Technologies
+This project was developed using the following technologies:
+- [Node](https://nodejs.org/en/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+## Pre-requisites
+To run this project locally, you must install the following tools in your development environment:
+- [Node](https://nodejs.org/en/)
+## How to Run
+To run this project, follow these steps:
+1. Clone this repository
+```bash
+# Clone via ssh
+❯ git clone git@github.com:ayrtonbsouza/codeflix-catalog-admin-web.git
 
-## Available Scripts
+# Or clone via HTTPS
+❯ git clone https://github.com/ayrtonbsouza/codeflix-catalog-admin-web.git
+```
+2. Go to project folder
+```bash
+❯ cd codeflix-catalog-admin-web
+```
+3. Install dependencies
+```bash
+❯ yarn
+```
+4. Run the application
+```bash
+❯ yarn start
+```
+4. Wait until the project start and go to [localhost:4000](localhost:4000)
+## Running Tests
+To run tests, follow these steps:
+1. Go to project folder
+```bash
+❯ cd codeflix-catalog-admin-web
+```
+2. Install dependencies
+```bash
+❯ yarn
+```
+3. Wait until the dependencies are installed and run the tests
+```bash
+❯ yarn test
+```
+## Concepts
+This project was developed using concepts found in the following references:
+- [Clean Code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [Clean Architecture](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164/ref=sr_1_1?keywords=clean+architecture&qid=1659496918&s=books&sprefix=clean+archi%2Cstripbooks-intl-ship%2C181&sr=1-1)
+- [Test Driven Development](https://www.amazon.com/Learning-Test-Driven-Development-Polyglot-Uncluttered/dp/1098106474/ref=sr_1_2?crid=KVDJAO2X3D08&keywords=test+driven+development+javascript&qid=1659496955&s=books&sprefix=test+driven+development+javascript%2Cstripbooks-intl-ship%2C163&sr=1-2)
+## Architecture
+This is the design of the architecture that make up the applications of the Codeflix project. The application developed in this repository is highlighted in purple.
+```mermaid
+graph LR
+A[fa:fa-user Subscriber] -->|HTTPS| B[React: Video Catalog]
+A -->|HTTPS| C[Keycloak: Identity Service]
+A -->|HTTPS| F[Free Language: Subscription]
+B -->|HTTPS/JSON| D[Node Microservice: Video Catalog]
+D -->|HTTPS/JSON| E[Elasticsearch: Catalog API Database]
+G[fa:fa-user Subscription Admin] -->|HTTPS| F
+F -->|HTTPS| C
+F -->|Postgres Protocol|H[Postgres: Subscription Database]
+I[fa:fa-user Catalog Admin] -->|HTTPS|J[React: Video Catalog Admin]
+style J fill:#8257e5
+J -->|HTTPS|C
+J -->|HTTPS/JSON|K[Node Microservice: Video Catalog Admin]
+K -->|TCP|L[MySQL: Video Catalog]
+K -->|HTTPS|M[GCP: Raw Video Bucket]
+K -.->|RabbitMQ videos.new|N[Go Microservice: Encoder]
+K -.->|RabbitMQ videos.converted|N
+N -.->|RabbitMQ videos.converted|K
+N -.->|RabbitMQ videos.new|K
+N -->|HTTPS|M
+N -->|HTTPS|O[GCP: Encoded Video Bucket]
+P[Kafka Connect]-.->|Sink|E
+P -.->|Kafka Protocol|Q[Kafka: Message Broker]
+P -.->|Debezium| L
+```
+## License
+This project is licensed under the MIT License. See the [license file](LICENSE) for more information.
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+Made with ❤️ by **Ayrton Souza** :wave: [Get in touch!](https://web.whatsapp.com/send?phone=+5511941800859)
