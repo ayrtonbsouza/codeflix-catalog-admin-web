@@ -25,7 +25,7 @@ export function ListCategory() {
     return (
       <IconButton
         color="secondary"
-        onClick={() => console.log('clicked')}
+        onClick={() => console.log('Click!')}
         aria-label="delete"
       >
         <DeleteIcon />
