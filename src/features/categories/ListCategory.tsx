@@ -4,6 +4,7 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridRowsProp,
+  GridToolbar,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
@@ -12,6 +13,13 @@ import { selectCategories } from './categorySlice';
 
 export function ListCategory() {
   const { categories } = useAppSelector(selectCategories);
+
+  const componentProps = {
+    toolbar: {
+      showQuickFilter: true,
+      quickFilterProps: { debounceMs: 500 },
+    },
+  };
 
   function renderIsActiveCell(rowData: GridRenderCellParams) {
     return (
@@ -33,6 +41,17 @@ export function ListCategory() {
     );
   }
 
+  function renderNameCell(rowData: GridRenderCellParams) {
+    return (
+      <Link
+        style={{ textDecoration: 'none' }}
+        to={`/categories/${rowData.id}/edit`}
+      >
+        <Typography color="primary">{rowData.value}</Typography>
+      </Link>
+    );
+  }
+
   const rows: GridRowsProp = categories.map(category => ({
     id: category.id,
     name: category.name,
@@ -41,7 +60,12 @@ export function ListCategory() {
   }));
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', flex: 1 },
+    {
+      field: 'name',
+      headerName: 'Name',
+      flex: 1,
+      renderCell: renderNameCell,
+    },
     {
       field: 'is_active',
       headerName: 'Active',
@@ -71,9 +95,18 @@ export function ListCategory() {
           New Category
         </Button>
       </Box>
-      <div style={{ height: 300, width: '100%' }}>
-        <DataGrid rows={rows} columns={columns} />
-      </div>
+      <Box sx={{ display: 'flex', height: 600 }}>
+        <DataGrid
+          columns={columns}
+          components={{ Toolbar: GridToolbar }}
+          componentsProps={componentProps}
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          disableSelectionOnClick
+          rows={rows}
+        />
+      </Box>
     </Box>
   );
 }
