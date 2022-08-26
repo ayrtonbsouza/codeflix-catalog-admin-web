@@ -4,7 +4,7 @@
   "author": "Ayrton Souza <me@ayrtonsouza.com>",
   "description": "Front-end developed to manage the catalog of codeflix",
   "private": true,
-  "license": "MIT",
+  "license": "ISC",
   "keywords": [
     "codeflix",
     "catalog",

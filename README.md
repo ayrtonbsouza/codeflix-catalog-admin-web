@@ -80,7 +80,7 @@ P -.->|Kafka Protocol|Q[Kafka: Message Broker]
 P -.->|Debezium| L
 ```
 ## License
-This project is licensed under the MIT License. See the [license file](LICENSE) for more information.
+This project is licensed under the ISC License. See the [license file](LICENSE) for more information.
 
 ---
 Made with ❤️ by **Ayrton Souza** :wave: [Get in touch!](https://web.whatsapp.com/send?phone=+5511941800859)
