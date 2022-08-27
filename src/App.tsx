@@ -1,4 +1,5 @@
 import { Box, ThemeProvider, Typography } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Layout } from './components/Layout';
@@ -10,32 +11,41 @@ import { ListCategory } from './features/categories/ListCategory';
 function App() {
   return (
     <ThemeProvider theme={appTheme}>
-      <Box
-        component="main"
-        sx={{
-          height: '100vh',
-          backgroundColor: theme => theme.palette.grey[900],
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
         }}
+        autoHideDuration={3000}
       >
-        <Header />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<ListCategory />} />
-            <Route path="/categories" element={<ListCategory />} />
-            <Route path="/categories/create" element={<CreateCategory />} />
-            <Route path="/categories/:id/edit" element={<EditCategory />} />
-            <Route
-              path="*"
-              element={
-                <Box sx={{ color: 'white' }}>
-                  <Typography variant="h1">404</Typography>
-                  <Typography variant="h2">Page not found</Typography>
-                </Box>
-              }
-            />
-          </Routes>
-        </Layout>
-      </Box>
+        <Box
+          component="main"
+          sx={{
+            height: '100vh',
+            backgroundColor: theme => theme.palette.grey[900],
+          }}
+        >
+          <Header />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<ListCategory />} />
+              <Route path="/categories" element={<ListCategory />} />
+              <Route path="/categories/create" element={<CreateCategory />} />
+              <Route path="/categories/:id/edit" element={<EditCategory />} />
+              <Route
+                path="*"
+                element={
+                  <Box sx={{ color: 'white' }}>
+                    <Typography variant="h1">404</Typography>
+                    <Typography variant="h2">Page not found</Typography>
+                  </Box>
+                }
+              />
+            </Routes>
+          </Layout>
+        </Box>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

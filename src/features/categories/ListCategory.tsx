@@ -8,12 +8,14 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { deleteCategory, selectCategories } from './categorySlice';
 
 export function ListCategory() {
   const categories = useAppSelector(selectCategories);
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const componentProps = {
     toolbar: {
       showQuickFilter: true,
@@ -23,6 +25,7 @@ export function ListCategory() {
 
   function handleDelete(id: string) {
     dispatch(deleteCategory(id));
+    enqueueSnackbar('Category deleted successfully', { variant: 'info' });
   }
 
   function renderIsActiveCell(rowData: GridRenderCellParams) {
