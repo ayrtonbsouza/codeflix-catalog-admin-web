@@ -8,18 +8,22 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-import { selectCategories } from './categorySlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { deleteCategory, selectCategories } from './categorySlice';
 
 export function ListCategory() {
-  const { categories } = useAppSelector(selectCategories);
-
+  const categories = useAppSelector(selectCategories);
+  const dispatch = useAppDispatch();
   const componentProps = {
     toolbar: {
       showQuickFilter: true,
       quickFilterProps: { debounceMs: 500 },
     },
   };
+
+  function handleDelete(id: string) {
+    dispatch(deleteCategory(id));
+  }
 
   function renderIsActiveCell(rowData: GridRenderCellParams) {
     return (
@@ -33,7 +37,7 @@ export function ListCategory() {
     return (
       <IconButton
         color="secondary"
-        onClick={() => console.log('Clicked!')}
+        onClick={() => handleDelete(rowData.value)}
         aria-label="delete"
       >
         <DeleteIcon />
@@ -77,6 +81,7 @@ export function ListCategory() {
     {
       field: 'id',
       headerName: 'Actions',
+      type: 'string',
       flex: 1,
       renderCell: renderActionsCell,
     },

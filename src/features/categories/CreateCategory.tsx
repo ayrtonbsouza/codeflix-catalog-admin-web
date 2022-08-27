@@ -1,11 +1,12 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { useState } from 'react';
-import { Category } from './categorySlice';
+import { useAppDispatch } from '../../app/hooks';
+import { Category, createCategory } from './categorySlice';
 import { CategoryForm } from './components/CategoryForm';
 
 export function CreateCategory() {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [category, setCategory] = useState<Category>({
+  const [categoryState, setCategoryState] = useState<Category>({
     id: '',
     name: '',
     description: '',
@@ -14,14 +15,23 @@ export function CreateCategory() {
     created_at: '',
     updated_at: '',
   });
+  const dispatch = useAppDispatch();
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.name, event.target.value);
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsDisabled(true);
+    dispatch(createCategory(categoryState));
   }
 
-  function handleChangeToggle(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.name, event.target.checked);
-  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setCategoryState({ ...categoryState, [name]: value });
+  };
+
+  const handleToggleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
 
   return (
     <Box>
@@ -32,14 +42,12 @@ export function CreateCategory() {
           </Box>
         </Box>
         <CategoryForm
-          category={category}
+          category={categoryState}
           isDisabled={isDisabled}
           isLoading={false}
-          onSubmit={() => {
-            console.log('submit');
-          }}
+          onSubmit={onSubmit}
           onChange={handleChange}
-          onChangeToggle={handleChangeToggle}
+          onChangeToggle={handleToggleChange}
         />
       </Paper>
     </Box>

@@ -41,41 +41,34 @@ const categories: Category[] = [
   },
 ];
 
-export const initialState = {
-  categories,
-};
+export const initialState = categories;
 
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
     createCategory(state, action) {
-      state.categories.push(action.payload);
+      state.push(action.payload);
     },
     updateCategory(state, action) {
-      const { id, name, description } = action.payload;
-      const cat = state.categories.find(c => c.id === id);
-      if (cat) {
-        cat.name = name;
-        cat.description = description;
-      }
+      const index = state.findIndex(
+        category => category.id === action.payload.id,
+      );
+
+      state[index] = action.payload;
     },
     deleteCategory(state, action) {
-      const { id } = action.payload;
-      const cat = state.categories.find(c => c.id === id);
-      if (cat) {
-        cat.deleted_at = new Date().toISOString();
-        cat.is_active = false;
-      }
+      const index = state.findIndex(
+        category => category.id === action.payload.id,
+      );
+      state.splice(index, 1);
     },
   },
 });
 
 export const selectCategories = (state: RootState) => state.categories;
 export const selectCategoryById = (state: RootState, id: string) => {
-  const response = state.categories.categories.find(
-    category => category.id === id,
-  );
+  const response = state.categories.find(category => category.id === id);
   return (
     response || {
       id: '',
@@ -88,5 +81,7 @@ export const selectCategoryById = (state: RootState, id: string) => {
     }
   );
 };
+export const { createCategory, updateCategory, deleteCategory } =
+  categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

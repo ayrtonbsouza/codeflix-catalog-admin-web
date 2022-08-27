@@ -31,7 +31,7 @@ export function CategoryForm({
 }: Props) {
   return (
     <Box p={2}>
-      <form>
+      <form onSubmit={onSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -81,9 +81,7 @@ export function CategoryForm({
                 type="submit"
                 variant="contained"
                 color="secondary"
-                component={Link}
                 disabled={isDisabled}
-                to="/categories"
               >
                 Save
               </Button>
